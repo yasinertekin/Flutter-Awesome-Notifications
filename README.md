@@ -22,4 +22,8 @@ This is a sample app that demonstrates how to use the `awesome_notifications` pa
   - [awesome_notifications](https://pub.dev/packages/awesome_notifications)
 
 - Getit
+
   - [get_it](https://pub.dev/packages/get_it)
+
+- Very Good Analysis
+  - [very_good_analysis](https://pub.dev/packages/very_good_analysis)
