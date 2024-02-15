@@ -21,11 +21,6 @@ final class CounterViewModel extends ChangeNotifier {
 
   int _counter = 15;
 
-  final _password = '1234';
-
-  /// Password Getter
-  String get password => _password;
-
   /// Counter Getter
   int get counter => _counter;
 
@@ -36,13 +31,14 @@ final class CounterViewModel extends ChangeNotifier {
 
   /// Start Timer
   Future<void> startTimer() async {
+    // ignore: parameter_assignments
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
         if (_counter > 0) {
           _counter--;
         } else {
-          _timer.cancel();
+          timer.cancel();
         }
 
         notifyListeners();
@@ -50,14 +46,15 @@ final class CounterViewModel extends ChangeNotifier {
     );
   }
 
-  /// Check Password
-  bool checkPassword(String value) {
-    return value == _password;
-  }
-
   /// Reset Timer
   void resetTimer() {
     _counter = 15;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
   }
 }

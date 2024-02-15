@@ -34,7 +34,7 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Password: ${counterViewModel.password}'),
+                  Text('Password: $password'),
                   const SizedBox(height: 16),
                   _CounterTextField(
                     controller: controller,
@@ -44,7 +44,7 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
                     () async {
                       if (formKey.currentState?.validate() ?? false) {
                         final value = controller.text;
-                        if (counterViewModel.checkPassword(value)) {
+                        if (checkPassword(value, password)) {
                           await counterViewModel.startTimer();
 
                           await counterViewModel.notificationService
@@ -71,15 +71,6 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  @override
-  void showScaffoldMessenger(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
       ),
     );
   }

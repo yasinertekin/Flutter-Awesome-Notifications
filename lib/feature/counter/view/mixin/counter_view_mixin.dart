@@ -21,8 +21,19 @@ mixin CounterViewMixin on State<CounterView> {
   /// Form Key Getter
   GlobalKey<FormState> get formKey => _formKey;
 
-  /// Counter Getter
+  final _password = '1234';
 
-  /// Show Scaffold Messenger
-  void showScaffoldMessenger(String message) {}
+  /// Password Getter
+  String get password => _password;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  /// Check Password
+  bool checkPassword(String value, String password) {
+    return value == password;
+  }
 }
