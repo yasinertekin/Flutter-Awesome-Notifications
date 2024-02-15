@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:notification_case/feature/counter/view/counter_view.dart';
-import 'package:notification_case/feature/counter/view_model/counter_view_model.dart';
 
 /// CounterViewMixin
 mixin CounterViewMixin on State<CounterView> {
@@ -23,12 +22,6 @@ mixin CounterViewMixin on State<CounterView> {
   GlobalKey<FormState> get formKey => _formKey;
 
   /// Counter Getter
-
-  /// Start Timer And Bottom Sheet
-  void customShowModalBottomSheet(
-    CounterViewModel counterViewModel,
-    int randomKey,
-  ) {}
 
   /// Show Scaffold Messenger
   void showScaffoldMessenger(String message) {}

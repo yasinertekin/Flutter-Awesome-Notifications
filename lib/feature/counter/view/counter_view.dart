@@ -52,7 +52,7 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
                           await counterViewModel.notificationService
                               .scheduledNotification(
                             DateTime.now().add(
-                              const Duration(seconds: 15),
+                              Duration(seconds: counterViewModel.counter),
                             ),
                             Random().nextInt(100).toString(),
                             'Password is cracked!',
@@ -74,54 +74,6 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> _startTimerAndBottomSheet(
-    CounterViewModel counterViewModel,
-  ) async {
-    if (formKey.currentState?.validate() ?? false) {
-      final value = controller.text;
-      if (counterViewModel.checkPassword(value)) {
-        await counterViewModel.startTimer();
-
-        Future.delayed(
-          Duration(seconds: counterViewModel.counter),
-          () async {
-            await counterViewModel.notificationService.scheduledNotification(
-              DateTime.now().add(
-                const Duration(seconds: 15),
-              ),
-              Random().nextInt(100).toString(),
-              'Password is cracked!',
-              'icon',
-            );
-          },
-        );
-        showScaffoldMessenger('Password is correct!');
-      } else {
-        showScaffoldMessenger('Password is incorrect!');
-      }
-    }
-  }
-
-  @override
-  Future<void> customShowModalBottomSheet(
-    CounterViewModel counterViewModel,
-    int randomKey,
-  ) async {
-    await showModalBottomSheet<void>(
-      context: context,
-      builder: (context) {
-        Future.delayed(const Duration(seconds: 1), () {
-          showScaffoldMessenger('Password is cracked!');
-          counterViewModel.resetTimer();
-          Navigator.of(context).pop(); // Close the bottom sheet after 1 seconds
-        });
-        return _BottomSheetContainer(
-          randomKey: randomKey.toString(),
-        );
-      },
     );
   }
 
