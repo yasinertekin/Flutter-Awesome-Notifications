@@ -3,11 +3,14 @@ PODS:
     - Flutter
     - IosAwnCore (~> 0.9.1)
   - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - IosAwnCore (0.9.1)
 
 DEPENDENCIES:
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
 
 SPEC REPOS:
   trunk:
@@ -18,10 +21,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/awesome_notifications/ios"
   Flutter:
     :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
 
 SPEC CHECKSUMS:
   awesome_notifications: 399076ea2bdf119beef9126f1ca6914215390997
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   IosAwnCore: 4691f457bd8dc9a3a0a941cee6439a894a0b81aa
 
 PODFILE CHECKSUM: a8d91cc322c6e8658cfde9aa72e32816153e1f6f
