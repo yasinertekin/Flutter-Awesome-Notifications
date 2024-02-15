@@ -5,10 +5,8 @@ import 'package:notification_case/feature/counter/view/mixin/counter_view_mixin.
 import 'package:notification_case/feature/counter/view_model/counter_view_model.dart';
 import 'package:provider/provider.dart';
 
-part 'widget/bottom_sheet_container.dart';
 part 'widget/counter_text_field.dart';
 part 'widget/enter_password_button.dart';
-part 'widget/password_deciphering.dart';
 
 /// CounterView
 final class CounterView extends StatefulWidget {
