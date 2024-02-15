@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:notification_case/feature/counter/view/counter_view.dart';
+import 'package:notification_case/feature/counter/view_model/counter_view_model.dart';
+import 'package:notification_case/feature/locators.dart';
+import 'package:notification_case/feature/notification_service.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const _MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Locators.register(); // Locators sınıfındaki bağımlılıkları kaydet
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => CounterViewModel(
+            Locators.getIt<INotificationService>(),
+          ),
+        ),
+      ],
+      child: const _MyApp(),
+    ),
+  );
 }
 
 final class _MyApp extends StatelessWidget {

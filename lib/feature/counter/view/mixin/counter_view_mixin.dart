@@ -6,8 +6,6 @@ import 'package:notification_case/feature/counter/view_model/counter_view_model.
 
 /// CounterViewMixin
 mixin CounterViewMixin on State<CounterView> {
-  final _counterViewModel = CounterViewModel();
-
   final _controller = TextEditingController();
 
   final int _randomKey = Random().nextInt(1000);
@@ -18,9 +16,6 @@ mixin CounterViewMixin on State<CounterView> {
   /// Controller Getter
   TextEditingController get controller => _controller;
 
-  /// CounterViewModel Getter
-  CounterViewModel get counterViewModel => _counterViewModel;
-
   /// Form Key
   final _formKey = GlobalKey<FormState>();
 
@@ -28,18 +23,6 @@ mixin CounterViewMixin on State<CounterView> {
   GlobalKey<FormState> get formKey => _formKey;
 
   /// Counter Getter
-  int get counter => _counterViewModel.counter;
-
-  @override
-  void dispose() {
-    _counterViewModel.timer.cancel();
-    super.dispose();
-  }
-
-  /// Start Timer
-  void startTimer() {
-    _counterViewModel.startTimer();
-  }
 
   /// Start Timer And Bottom Sheet
   void customShowModalBottomSheet(

@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:notification_case/feature/counter/view/mixin/counter_view_mixin.dart';
 import 'package:notification_case/feature/counter/view_model/counter_view_model.dart';
+import 'package:provider/provider.dart';
 
 part 'widget/bottom_sheet_container.dart';
 part 'widget/counter_text_field.dart';
@@ -20,24 +23,19 @@ final class CounterView extends StatefulWidget {
 final class _CounterAppState extends State<CounterView> with CounterViewMixin {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Countdown Timer'),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Form(
-            key: formKey,
-            child: ListenableBuilder(
-              listenable: counterViewModel,
-              builder: (context, child) => Column(
+    return Consumer<CounterViewModel>(
+      builder: (context, counterViewModel, child) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Countdown Timer'),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Form(
+              key: formKey,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (!counterViewModel.isTimerFinished)
-                    const _PasswordDeciphering()
-                  else
-                    const SizedBox.shrink(),
                   Text('Password: ${counterViewModel.password}'),
                   const SizedBox(height: 16),
                   _CounterTextField(
@@ -46,12 +44,28 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
                   const SizedBox(height: 16),
                   _EnterPasswordButton(
                     () async {
-                      await _startTimerAndBottomSheet();
+                      if (formKey.currentState?.validate() ?? false) {
+                        final value = controller.text;
+                        if (counterViewModel.checkPassword(value)) {
+                          await counterViewModel.startTimer();
+
+                          await counterViewModel.notificationService
+                              .scheduledNotification(
+                            DateTime.now().add(
+                              const Duration(seconds: 15),
+                            ),
+                            Random().nextInt(100).toString(),
+                            'Password is cracked!',
+                            'icon',
+                          );
+                          counterViewModel.resetTimer();
+                        }
+                      }
                     },
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    '$counter',
+                    '${counterViewModel.counter}',
                     style: const TextStyle(fontSize: 48),
                   ),
                 ],
@@ -63,7 +77,9 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
     );
   }
 
-  Future<void> _startTimerAndBottomSheet() async {
+  Future<void> _startTimerAndBottomSheet(
+    CounterViewModel counterViewModel,
+  ) async {
     if (formKey.currentState?.validate() ?? false) {
       final value = controller.text;
       if (counterViewModel.checkPassword(value)) {
@@ -71,10 +87,16 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
 
         Future.delayed(
           Duration(seconds: counterViewModel.counter),
-          () => customShowModalBottomSheet(
-            counterViewModel,
-            randomKey,
-          ),
+          () async {
+            await counterViewModel.notificationService.scheduledNotification(
+              DateTime.now().add(
+                const Duration(seconds: 15),
+              ),
+              Random().nextInt(100).toString(),
+              'Password is cracked!',
+              'icon',
+            );
+          },
         );
         showScaffoldMessenger('Password is correct!');
       } else {

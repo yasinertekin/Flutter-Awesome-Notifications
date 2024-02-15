@@ -1,9 +1,24 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:notification_case/feature/notification_service.dart';
 
 /// CounterViewModel
 final class CounterViewModel extends ChangeNotifier {
+  /// CounterViewModel Constructor
+  CounterViewModel(this.notificationService);
+
+  /// Notification Service
+  final INotificationService notificationService;
+
+  /// Show Notification
+  Future<void> showNotification(String title, String icon) async {
+    await notificationService.showNotification(
+      title,
+      icon,
+    );
+  }
+
   int _counter = 15;
 
   bool _isTimerFinished = true;
@@ -50,7 +65,7 @@ final class CounterViewModel extends ChangeNotifier {
   /// Reset Timer
   void resetTimer() {
     _counter = 15;
-    _isTimerFinished = true;
+    _isTimerFinished = false;
     notifyListeners();
   }
 }
