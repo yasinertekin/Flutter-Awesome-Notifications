@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:notification_case/feature/counter/view/mixin/counter_view_mixin.dart';
 import 'package:notification_case/feature/counter/view_model/counter_view_model.dart';
@@ -26,49 +24,60 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
         appBar: AppBar(
           title: const Text('Countdown Timer'),
         ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Password: $password'),
-                  const SizedBox(height: 16),
-                  _CounterTextField(
-                    controller: controller,
-                  ),
-                  const SizedBox(height: 16),
-                  _EnterPasswordButton(
-                    () async {
-                      if (formKey.currentState?.validate() ?? false) {
-                        final value = controller.text;
-                        if (checkPassword(value, password)) {
-                          await counterViewModel.startTimer();
+        body: _CounterViewBody(
+          formKey: formKey,
+          password: password,
+          controller: controller,
+          onPressed: () async {
+            crackPassword(counterViewModel);
+          },
+          counterViewModel: counterViewModel,
+        ),
+      ),
+    );
+  }
+}
 
-                          await counterViewModel.notificationService
-                              .scheduledNotification(
-                            DateTime.now().add(
-                              Duration(seconds: counterViewModel.counter),
-                            ),
-                            Random().nextInt(100).toString(),
-                            'Password is cracked!',
-                            'icon',
-                          );
-                          counterViewModel.resetTimer();
-                        }
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    '${counterViewModel.counter}',
-                    style: const TextStyle(fontSize: 48),
-                  ),
-                ],
+final class _CounterViewBody extends StatelessWidget {
+  const _CounterViewBody({
+    required this.formKey,
+    required this.password,
+    required this.controller,
+    required this.counterViewModel,
+    required this.onPressed,
+  });
+
+  final GlobalKey<FormState> formKey;
+  final String password;
+  final TextEditingController controller;
+  final CounterViewModel counterViewModel;
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Password: $password'),
+              const SizedBox(height: 16),
+              _CounterTextField(
+                controller: controller,
               ),
-            ),
+              _EnterPasswordButton(
+                onPressed,
+              ),
+              const SizedBox(height: 16),
+              const SizedBox(height: 16),
+              Text(
+                '${counterViewModel.counter}',
+                style: const TextStyle(fontSize: 48),
+              ),
+            ],
           ),
         ),
       ),
