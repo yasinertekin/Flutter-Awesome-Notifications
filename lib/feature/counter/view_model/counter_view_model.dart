@@ -21,15 +21,10 @@ final class CounterViewModel extends ChangeNotifier {
 
   int _counter = 15;
 
-  bool _isTimerFinished = true;
-
   final _password = '1234';
 
   /// Password Getter
   String get password => _password;
-
-  /// Is Timer Finished Getter
-  bool get isTimerFinished => _isTimerFinished;
 
   /// Counter Getter
   int get counter => _counter;
@@ -41,7 +36,6 @@ final class CounterViewModel extends ChangeNotifier {
 
   /// Start Timer
   Future<void> startTimer() async {
-    _isTimerFinished = false;
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
@@ -49,7 +43,6 @@ final class CounterViewModel extends ChangeNotifier {
           _counter--;
         } else {
           _timer.cancel();
-          _isTimerFinished = false;
         }
 
         notifyListeners();
@@ -65,7 +58,6 @@ final class CounterViewModel extends ChangeNotifier {
   /// Reset Timer
   void resetTimer() {
     _counter = 15;
-    _isTimerFinished = false;
     notifyListeners();
   }
 }
