@@ -1,16 +1,25 @@
-# notification_case
+# Sample Notifications
 
-A new Flutter project.
+This is a sample app that demonstrates how to use the `awesome_notifications` package to show notifications in a Flutter app.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- This app shows how to use the `awesome_notifications` package to show notifications in a Flutter app.
 
-A few resources to get you started if this is your first Flutter project:
+## Built With
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Flutter](https://flutter.dev/)
+- [Dart](https://dart.dev/)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Packages
+
+- State Management
+
+  - [Provider](https://pub.dev/packages/provider)
+
+- Notifications
+
+  - [awesome_notifications](https://pub.dev/packages/awesome_notifications)
+
+- Getit
+  - [get_it](https://pub.dev/packages/get_it)
