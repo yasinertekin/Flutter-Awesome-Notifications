@@ -11,6 +11,14 @@ This is a sample app that demonstrates how to use the `awesome_notifications` pa
 - [Flutter](https://flutter.dev/)
 - [Dart](https://dart.dev/)
 
+## Preview
+
+<p>
+    <img src="screenshots/first.png" width="45%"/>
+    <img src="screenshots/notification.png" width="45%"/>
+  
+</p>
+
 ## Packages
 
 - State Management
