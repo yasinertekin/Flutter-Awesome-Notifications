@@ -7,29 +7,29 @@ import 'package:notification_case/product/notification_service.dart';
 @immutable
 
 /// Locators
-final class Locators {
+abstract final class Locators {
   const Locators._();
 
   /// GetIt instance
-  static final getIt = GetIt.instance;
+  static final _getIt = GetIt.instance;
 
   /// CounterViewModel Getter
-  static CounterViewModel get counterViewModel => getIt<CounterViewModel>();
+  static CounterViewModel get counterViewModel => _getIt<CounterViewModel>();
 
   /// Register dependencies
   static Future<void> register() async {
     // Register CounterViewModel
-    getIt
+    _getIt
       ..registerFactory<CounterViewModel>(
         () => CounterViewModel(
-          getIt<INotificationService>(),
+          _getIt<INotificationService>(),
         ),
       )
 
       // Register NotificationService
       ..registerLazySingleton<INotificationService>(
         () => NotificationService(
-          getIt<AwesomeNotifications>(),
+          _getIt<AwesomeNotifications>(),
         ),
       )
 
