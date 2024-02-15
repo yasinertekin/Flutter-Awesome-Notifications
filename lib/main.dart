@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notification_case/feature/counter/view/counter_view.dart';
 import 'package:notification_case/feature/counter/view_model/counter_view_model.dart';
-import 'package:notification_case/feature/locators.dart';
-import 'package:notification_case/feature/notification_service.dart';
+import 'package:notification_case/locators.dart';
+import 'package:notification_case/product/notification_service.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

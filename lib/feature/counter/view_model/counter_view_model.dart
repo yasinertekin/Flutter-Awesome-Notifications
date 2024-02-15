@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:notification_case/feature/notification_service.dart';
+import 'package:notification_case/product/notification_service.dart';
 
 /// CounterViewModel
 final class CounterViewModel extends ChangeNotifier {
