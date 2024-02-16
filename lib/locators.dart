@@ -32,6 +32,15 @@ abstract final class Locators {
           _getIt<AwesomeNotifications>(),
         ),
       )
+      ..registerLazySingleton<AwesomeNotifications>(() {
+        final awesome = AwesomeNotifications();
+        awesome.isNotificationAllowed().then((isAllowed) {
+          if (!isAllowed) {
+            awesome.requestPermissionToSendNotifications();
+          }
+        });
+        return awesome;
+      })
 
       // Register AwesomeNotifications
       ..registerLazySingleton<AwesomeNotifications>(
