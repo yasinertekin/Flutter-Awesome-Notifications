@@ -18,22 +18,10 @@ abstract final class Locators {
 
   /// Register dependencies
   static Future<void> register() async {
-    // Register CounterViewModel
+    // Register AwesomeNotifications
     _getIt
-      ..registerFactory<CounterViewModel>(
-        () => CounterViewModel(
-          _getIt<INotificationService>(),
-        ),
-      )
-
-      // Register NotificationService
-      ..registerLazySingleton<INotificationService>(
-        () => NotificationService(
-          _getIt<AwesomeNotifications>(),
-        ),
-      )
       ..registerLazySingleton<AwesomeNotifications>(() {
-        final awesome = _getIt<AwesomeNotifications>();
+        final awesome = AwesomeNotifications();
         awesome.isNotificationAllowed().then((isAllowed) {
           if (!isAllowed) {
             awesome.requestPermissionToSendNotifications();
@@ -42,9 +30,18 @@ abstract final class Locators {
         return awesome;
       })
 
-      // Register AwesomeNotifications
-      ..registerLazySingleton<AwesomeNotifications>(
-        AwesomeNotifications.new,
+// Register NotificationService
+      ..registerLazySingleton<INotificationService>(
+        () => NotificationService(
+          _getIt<AwesomeNotifications>(),
+        ),
+      )
+
+// Register CounterViewModel
+      ..registerFactory<CounterViewModel>(
+        () => CounterViewModel(
+          _getIt<INotificationService>(),
+        ),
       );
   }
 }
