@@ -60,6 +60,12 @@ mixin CounterViewMixin on State<CounterView> {
           'icon',
         );
         counterViewModel.resetTimer();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Wrong Password!'),
+          ),
+        );
       }
     }
   }
