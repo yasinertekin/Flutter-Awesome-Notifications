@@ -11,39 +11,47 @@ final class CounterViewModel extends ChangeNotifier {
   /// Notification Service
   final INotificationService notificationService;
 
-  /// Show Notification
-  Future<void> showNotification(String title, String icon) async {
-    await notificationService.showNotification(
-      title,
-      icon,
-    );
-  }
-
   int _counter = 15;
 
   /// Counter Getter
   int get counter => _counter;
-
   late Timer _timer;
 
   /// Timer Getter
   Timer get timer => _timer;
 
+  bool _isCracked = false;
+
+  /// Is Cracked Getter
+  bool get isCracked => _isCracked;
+
+  void _setIsCracked() {
+    _isCracked = !_isCracked;
+    notifyListeners();
+  }
+
   /// Start Timer
-  Future<void> startTimer() async {
-    // ignore: parameter_assignments
+  Future<void> startTimer(String password) async {
+    _setIsCracked();
+
+    const duration = Duration(milliseconds: 250);
     _timer = Timer.periodic(
-      const Duration(seconds: 1),
+      duration,
       (timer) {
         if (_counter > 0) {
           _counter--;
         } else {
           timer.cancel();
+          notificationService.showNotification(
+            'Password Cracked!',
+            'Password: $password',
+          );
         }
-
         notifyListeners();
       },
     );
+    _setIsCracked();
+    notifyListeners();
   }
 
   /// Reset Timer

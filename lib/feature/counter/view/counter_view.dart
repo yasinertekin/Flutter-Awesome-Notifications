@@ -3,8 +3,10 @@ import 'package:notification_case/feature/counter/view/mixin/counter_view_mixin.
 import 'package:notification_case/feature/counter/view_model/counter_view_model.dart';
 import 'package:provider/provider.dart';
 
-part 'widget/counter_text_field.dart';
-part 'widget/enter_password_button.dart';
+part 'widget/counter_app_bar.dart';
+part 'widget/custom_alert_dialog.dart';
+part 'widget/password_cracking_view.dart';
+part 'widget/password_text_form_field.dart';
 
 /// CounterView
 final class CounterView extends StatefulWidget {
@@ -20,65 +22,54 @@ final class _CounterAppState extends State<CounterView> with CounterViewMixin {
   @override
   Widget build(BuildContext context) {
     return Consumer<CounterViewModel>(
-      builder: (context, counterViewModel, child) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Countdown Timer'),
-        ),
-        body: _CounterViewBody(
-          formKey: formKey,
-          password: password,
+      builder: (context, counterViewModel, child) {
+        navigateDecrypteView(counterViewModel, context);
+        return _CounterBody(
+          counterViewModel,
+        );
+      },
+    );
+  }
+
+  @override
+  Future<void> showAlertDialog() {
+    return showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
           controller: controller,
-          onPressed: () async {
-            crackPassword(counterViewModel);
-          },
-          counterViewModel: counterViewModel,
-        ),
-      ),
+          password: password,
+          formKey: formKey,
+          crackPassword: crackPassword,
+        );
+      },
     );
   }
 }
 
-final class _CounterViewBody extends StatelessWidget {
-  const _CounterViewBody({
-    required this.formKey,
-    required this.password,
-    required this.controller,
-    required this.counterViewModel,
-    required this.onPressed,
-  });
+final class _CounterBody extends StatelessWidget {
+  const _CounterBody(
+    this.counterViewModel,
+  );
 
-  final GlobalKey<FormState> formKey;
-  final String password;
-  final TextEditingController controller;
   final CounterViewModel counterViewModel;
-  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Password: $password'),
-              const SizedBox(height: 16),
-              _CounterTextField(
-                controller: controller,
+    return Scaffold(
+      appBar: const _CounterAppBar(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (counterViewModel.isCracked)
+              const SizedBox.shrink()
+            else
+              _PasswordCrackingView(
+                password: counterViewModel.counter.toString(),
               ),
-              _EnterPasswordButton(
-                onPressed,
-              ),
-              const SizedBox(height: 16),
-              const SizedBox(height: 16),
-              Text(
-                '${counterViewModel.counter}',
-                style: const TextStyle(fontSize: 48),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );

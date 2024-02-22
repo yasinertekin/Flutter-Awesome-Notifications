@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notification_case/feature/counter/view/counter_view.dart';
+import 'package:notification_case/feature/decrypte/decrypte_view.dart';
 import 'package:notification_case/locators.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,7 @@ final class _MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const CounterView(),
+      home: const DecrypteView(),
     );
   }
 }
